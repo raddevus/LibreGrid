@@ -1,9 +1,4 @@
 import * as React from 'react';
-// import {
-//   editableIndexes,
-//   searchableIndexes,
-//   numericSearchIndexes,
-// } from './data/newlibreData';
 
 interface PropsParams {
   headers: string[];
@@ -65,6 +60,8 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
       isLocal: false,
     };
     this.sort = this.sort.bind(this);
+    this.addRow = this.addRow.bind(this);
+    this.getJson = this.getJson.bind(this);
     this.clone = this.clone.bind(this);
     this.showEditor = this.showEditor.bind(this);
     this.save = this.save.bind(this);
@@ -79,7 +76,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
   render() {
     const searchRow = !this.state.search ? null : (
       <tr onChange={this.search}>
-        {this.state.headers.map((_: any, idx : number) => {
+        {this.state.headers.map((_, idx) => {
           if (
             // if the filter matches (returned array length > 0)
             // it found the idx in the searchableIndexes
@@ -127,6 +124,8 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
             {this.state.search ? 'Hide search' : 'Show search'}
           </button>
           <button onClick={this.revertData}>Revert Change(s)</button>
+          <button onClick={this.addRow}>Add Row</button>
+          <button onClick={this.getJson}>Get JSON</button>
           <label htmlFor="allowDataReset">Allow Data Reset</label>
           <input
             id="allowDataReset"
@@ -158,12 +157,14 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
                       : 'none'
                   }
                 >
-                  <input
-                    type="checkbox"
-                    value={row[0]}
-                    onChange={this.checkBoxChangeHandler}
-                    className="revertCheckboxes"
-                  />
+                  <td>
+                    <input
+                      type="checkbox"
+                      value={row[0]}
+                      onChange={this.checkBoxChangeHandler}
+                      className="revertCheckboxes"
+                    />
+                  </td>
                   {row.map((cell: any, colidx: number) => {
                     let edit = this.state.edit;
                     if (edit && edit.row === rowidx && edit.column === colidx) {
@@ -195,7 +196,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log(`edit: ${this.state.edit}`);
     let selectedColumn: any = this.props.editableIndexes.filter((x) => {
       console.log(`x : ${x}`);
-      if (x === e.target.cellIndex) {
+      if (x + this.columnOffset === e.target.cellIndex) {
         return true;
       } else {
         return false;
@@ -215,7 +216,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     this.setState({
       edit: {
         row: parseInt(e.target.parentNode.dataset.row, 10),
-        column: e.target.cellIndex,
+        column: e.target.cellIndex - this.columnOffset,
       },
     });
 
@@ -331,6 +332,35 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
       );
     }
     console.log(this.allSelRevertDbIds.size);
+  }
+
+  getJson(){
+    this.gridData.forEach(value => {
+      let idx = 0;
+      let outData = "["
+      this.props.fields.forEach(field => {
+        outData += `{${field}:${value[idx++]}},`;
+       
+      })
+      outData += "]";
+      console.log(outData);
+    });
+  }
+
+  addRow() {
+    console.log('addRow...');
+
+    //console.log(this.state.gridData.length);
+    let maxKey;
+    this.gridData.forEach((x, key, map) => {
+      maxKey = key;
+    });
+    console.log(`maxKey : ${maxKey}`);
+    let newRow: [] = [(++maxKey).toString(), '', ''];
+    this.gridData.set(maxKey, newRow);
+    this.setState({
+      targetData: [...this.gridData.values()],
+    });
   }
 
   revertData() {
