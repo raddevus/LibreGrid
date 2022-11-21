@@ -334,15 +334,14 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log(this.allSelRevertDbIds.size);
   }
 
-  getJson(){
-    this.gridData.forEach(value => {
+  getJson() {
+    this.gridData.forEach((value) => {
       let idx = 0;
-      let outData = "["
-      this.props.fields.forEach(field => {
+      let outData = '[';
+      this.props.fields.forEach((field) => {
         outData += `{${field}:${value[idx++]}},`;
-       
-      })
-      outData += "]";
+      });
+      outData += ']';
       console.log(outData);
     });
   }
@@ -351,13 +350,13 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log('addRow...');
 
     //console.log(this.state.gridData.length);
-    let maxKey : number = -1;
+    let maxKey: number = -1;
     this.gridData.forEach((x, key, map) => {
       maxKey = key;
     });
     console.log(`maxKey : ${maxKey}`);
-    let newRow: any = [++maxKey,"test2","test3"];
-    
+    let newRow: any = [++maxKey, 'test2', 'test3'];
+
     this.gridData.set(maxKey, newRow);
     this.setState({
       targetData: [...this.gridData.values()],
@@ -484,23 +483,45 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     return allRows;
   }
 
-  convertObjectsToMap(targetObject: any, fieldNames: any) {
+  convertObjectsToMap(
+    targetObject: any,
+    fieldNames: any,
+    hasIdColumn: boolean = true
+  ) {
     // maps a DB ID to each row[]
     let allRows: Map<number, []> = new Map();
-    let counter: number = 0;
+    let counterAsIdx: number = 0;
+    // if data doesn't supply an ID column then
+    // we need to do two things:
+    // 1. add the id column
+    // 2. use counterAsIdx as index value
+
+    if (!hasIdColumn) {
+      fieldNames.splice(0, 0, 'id');
+    }
+    console.log(fieldNames[0]);
 
     targetObject.map((x: any, colIdx: number) => {
       let row: any = [];
+      if (!hasIdColumn) {
+        row.push(counterAsIdx);
+      }
       fieldNames.map((name: string) => {
+        console.log(`fieldNames: name -> ${name}`);
+        if (x[name] === undefined) {
+          return;
+        }
         // Next line insures that if property contains
         // null then it is translated into a empty string
         x[name] = x[name] == null ? `` : x[name];
         row.push(x[name].toString());
       });
-      allRows.set(Number(row[0]), row);
+      if (hasIdColumn === true) {
+        allRows.set(Number(row[0]), row);
+      } else {
+        allRows.set(counterAsIdx++, row);
+      }
     });
-    console.log(`allRows.size ${allRows.size}`);
-    console.log(`get id 2 ${allRows.get(2)}`);
     return allRows;
   }
 }

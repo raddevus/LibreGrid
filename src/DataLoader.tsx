@@ -79,10 +79,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     let url = (document.querySelector('#dataFromHttp') as HTMLInputElement)
       .value;
 
-    console.log('clicked it!');
-    let inputHeaders = ((
-      document.querySelector('#headers') as HTMLInputElement
-    ).value = JSON.stringify(['IDX', 'First Name', 'Last Name']));
+    let inputHeaders = (document.querySelector('#headers') as HTMLInputElement)
+      .value;
 
     let inObjects = (document.querySelector('#data') as HTMLInputElement).value;
     console.log(inObjects);
@@ -90,12 +88,12 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     let inFields = (document.querySelector('#fields') as HTMLInputElement)
       .value;
 
-    let second: Map<number, []>;
+    let flintstones: Map<number, []>;
 
-    switch (inObjects) {
+    switch (inObjects.toLowerCase()) {
       case '': {
         if (url == '') {
-          second = this.convertObjectsToMap(
+          flintstones = this.convertObjectsToMap(
             [
               { id: 1, first: 'fred', last: 'flintstone' },
               { id: 2, first: 'wilma', last: 'flintstone' },
@@ -126,10 +124,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             ],
             JSON.parse(this.state.fields)
           );
+          if (inputHeaders === ''){
+            inputHeaders = JSON.stringify(["ID-X", "Last", "First"]);
+          }
+          console.log("done...")
         } else {
           fetch(url)
             .then((response) => response.json())
-            //.then((data) => console.log(data['results']))
             .then((data) => this.processFetchedData(data['results']));
           return;
         }
@@ -147,12 +148,12 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           localFields = sw_fields;
           console.log(`localFields : ${localFields}`);
         }
-        second = this.convertObjectsToMap(sw_people, localFields, false);
+        flintstones = this.convertObjectsToMap(sw_people, localFields, false);
         inputHeaders = JSON.stringify(sw_headers);
         break;
       }
       default: {
-        second = this.convertObjectsToMap(
+        flintstones = this.convertObjectsToMap(
           JSON.parse(inObjects),
           JSON.parse(this.state.fields)
         );
@@ -161,11 +162,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
-    console.log(`second.size : ${second.size}`);
-    second.forEach((x: any) => console.log(`second ${x}`));
+    console.log(`second.size : ${flintstones.size}`);
+    flintstones.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: inputHeaders,
-      extra: second,
+      extra: flintstones,
       useLocalData: false,
     });
 
@@ -173,7 +174,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
   }
 
   processFetchedData(data: [{}]) {
-    let second;
+    let fetchedData;
     console.log(`processFetchedData...`);
     console.log(data);
     let localFields: any = (
@@ -187,13 +188,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       localFields = sw_fields;
       console.log(`localFields : ${localFields}`);
     }
-    second = this.convertObjectsToMap(data, localFields, false);
+    fetchedData = this.convertObjectsToMap(data, localFields, false);
     let inputHeaders = JSON.stringify(sw_headers);
-    console.log(`second.size : ${second.size}`);
-    second.forEach((x: any) => console.log(`second ${x}`));
+    console.log(`second.size : ${fetchedData.size}`);
+    fetchedData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: inputHeaders,
-      extra: second,
+      extra: fetchedData,
       useLocalData: false,
     });
   }
@@ -237,8 +238,6 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         allRows.set(counterAsIdx++, row);
       }
     });
-    console.log(`allRows.size ${allRows.size}`);
-    console.log(`get id 2 ${allRows.get(2)}`);
     return allRows;
   }
 }
