@@ -1,0 +1,21 @@
+h1,
+p {
+  font-family: Lato;
+}
+th {
+  background-color: white;
+  border-color: black;
+  border: 2px;
+  border-style: solid;
+}
+hr {
+  color: blue;
+  height: 5px;
+  background-color: blue;
+}
+.dataHasChanged {
+  background-color: lightgreen;
+}
+.none {
+  color: black;
+}
