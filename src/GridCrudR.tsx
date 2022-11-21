@@ -76,7 +76,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
   render() {
     const searchRow = !this.state.search ? null : (
       <tr onChange={this.search}>
-        {this.state.headers.map((_, idx) => {
+        {this.state.headers.map((_: any, idx: number) => {
           if (
             // if the filter matches (returned array length > 0)
             // it found the idx in the searchableIndexes
@@ -351,12 +351,13 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log('addRow...');
 
     //console.log(this.state.gridData.length);
-    let maxKey;
+    let maxKey : number = -1;
     this.gridData.forEach((x, key, map) => {
       maxKey = key;
     });
     console.log(`maxKey : ${maxKey}`);
-    let newRow: [] = [(++maxKey).toString(), '', ''];
+    let newRow: any = [++maxKey,"test2","test3"];
+    
     this.gridData.set(maxKey, newRow);
     this.setState({
       targetData: [...this.gridData.values()],
