@@ -26,10 +26,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     console.log(`this.state.data.size : ${this.state.extra.size}`);
 
     this.loadData = this.loadData.bind(this);
+    this.preventDefault = this.preventDefault.bind(this);
   }
   render() {
     return (
-      <div>
+      <div onContextMenu={this.preventDefault} id="dataLoader">
         <h2>DataLoader</h2>
         <button onClick={this.loadData}>Load Data</button>
         <input id="headers" type="text" placeholder="headers" />
@@ -66,6 +67,10 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         />
       </div>
     );
+  }
+
+  preventDefault(e: any) {
+    e.preventDefault();
   }
   // #### NOTE DATA IN TEXT BOXES HAS TO
   // USE DOUBLE QUOTES (not single)
@@ -124,10 +129,10 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             ],
             JSON.parse(this.state.fields)
           );
-          if (inputHeaders === ''){
-            inputHeaders = JSON.stringify(["ID-X", "Last", "First"]);
+          if (inputHeaders === '') {
+            inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
           }
-          console.log("done...")
+          console.log('done...');
         } else {
           fetch(url)
             .then((response) => response.json())
@@ -157,6 +162,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           JSON.parse(inObjects),
           JSON.parse(this.state.fields)
         );
+        inputHeaders = JSON.stringify(['']);
       }
     }
 

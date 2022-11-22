@@ -62,6 +62,8 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     this.sort = this.sort.bind(this);
     this.addRow = this.addRow.bind(this);
     this.getJson = this.getJson.bind(this);
+    this.preventDefault = this.preventDefault.bind(this);
+    this.hideJsonDisplay = this.hideJsonDisplay.bind(this);
     this.clone = this.clone.bind(this);
     this.showEditor = this.showEditor.bind(this);
     this.save = this.save.bind(this);
@@ -117,7 +119,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     }
 
     return (
-      <div onKeyDown={this.escKeyHandler}>
+      <div id="mainGrid" onKeyDown={this.escKeyHandler}>
         <hr />
         <div>
           <button className="toolbar" onClick={this.toggleSearch}>
@@ -126,6 +128,13 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
           <button onClick={this.revertData}>Revert Change(s)</button>
           <button onClick={this.addRow}>Add Row</button>
           <button onClick={this.getJson}>Get JSON</button>
+          <div
+            className="hidden"
+            id="jsondisplay"
+            onMouseDown={this.hideJsonDisplay}
+          >
+            <textarea id="jsonoutput" rows={20} cols={80}></textarea>
+          </div>
           <label htmlFor="allowDataReset">Allow Data Reset</label>
           <input
             id="allowDataReset"
@@ -334,15 +343,60 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log(this.allSelRevertDbIds.size);
   }
 
+  hideJsonDisplay(e: any) {
+    this.preventDefault(e);
+    if (e.button != 2) {
+      return;
+    }
+    (document.querySelector('#jsondisplay') as HTMLElement).classList.remove(
+      'floatDoc'
+    );
+    (document.querySelector('#jsondisplay') as HTMLElement).classList.add(
+      'hidden'
+    );
+    console.log('FIRED!');
+  }
+
+  preventDefault(e: any) {
+    //      alert('Page will NOT reload');
+    e.preventDefault();
+  }
+
   getJson() {
-    this.gridData.forEach((value) => {
+    console.log(
+      `in getJson() : targetData.size ${this.state.targetData.length}`
+    );
+
+    let rowCount = 0;
+    let outData = `[`;
+    this.state.targetData.forEach((value: any) => {
       let idx = 0;
-      let outData = '[';
+      let fieldCount = 0;
+      outData += `{`;
       this.props.fields.forEach((field) => {
-        outData += `{${field}:${value[idx++]}},`;
+        outData += `"${field}":"${value[idx++]}"`;
+        if (++fieldCount != this.props.fields.length) {
+          outData += `,`;
+        }
       });
-      outData += ']';
+      outData += `}`;
+      console.log(`value.length ${value.length}`);
+      if (++rowCount < this.state.targetData.length) {
+        outData += `,`;
+      }
+      if (rowCount == this.state.targetData.length) {
+        outData += ']';
+      }
       console.log(outData);
+      (document.querySelector('#jsonoutput') as HTMLTextAreaElement).value =
+        outData;
+
+      (document.querySelector('#jsondisplay') as HTMLElement).classList.remove(
+        'hidden'
+      );
+      (document.querySelector('#jsondisplay') as HTMLElement).classList.add(
+        'floatDoc'
+      );
     });
   }
 
