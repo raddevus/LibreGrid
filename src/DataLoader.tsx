@@ -224,11 +224,16 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     console.log(fieldNames[0]);
 
     targetObject.map((x: any, colIdx: number) => {
+      // next line insures all property names in incoming JSON
+      // are lowercased so they can be matched.
+      x = this.toLowerKeys(x);
       let row: any = [];
       if (!hasIdColumn) {
         row.push(counterAsIdx);
       }
       fieldNames.map((name: string) => {
+        // insures that field names match even if case is different
+        name = name.toLowerCase();
         console.log(`fieldNames: name -> ${name}`);
         if (x[name] === undefined) {
           return;
@@ -245,5 +250,16 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       }
     });
     return allRows;
+  }
+
+  toLowerKeys(obj: any[]) {
+    // got this method at: https://bobbyhadz.com/blog/javascript-lowercase-object-keys and altered it to work with array of objects
+    return Object.keys(obj).reduce(
+      (accumulator, key: any) => {
+        accumulator[key.toLowerCase()] = obj[key];
+        return accumulator as any;
+      },
+      [{}]
+    );
   }
 }

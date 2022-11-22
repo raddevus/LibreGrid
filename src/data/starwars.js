@@ -2,7 +2,7 @@ export const sw_headers = ['ID', 'Name', 'birth year', 'Height', 'Mass', 'Hair']
 export const sw_fields = ['id', 'name','birth_year', 'height', 'mass', 'hair_color'];
 export const sw_people = [
   {
-    name: 'Luke Skywalker',
+    Name: 'Luke Skywalker',
     height: '172',
     mass: '77',
     hair_color: 'blond',
@@ -31,7 +31,7 @@ export const sw_people = [
     url: 'https://swapi.dev/api/people/1/',
   },
   {
-    name: 'C-3PO',
+    NAME: 'C-3PO',
     height: '167',
     mass: '75',
     hair_color: 'n/a',
