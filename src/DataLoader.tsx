@@ -173,7 +173,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           'last',
         ]);
         this.setState({
-          fields: JSON.stringify(['id', 'first', 'last']),
+          fields: ['id', 'first', 'last'],
         });
         inputHeaders = JSON.stringify(['']);
       }
