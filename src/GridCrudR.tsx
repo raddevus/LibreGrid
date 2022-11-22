@@ -344,7 +344,6 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
   }
 
   hideJsonDisplay(e: any) {
-    this.preventDefault(e);
     if (e.button != 2) {
       return;
     }
