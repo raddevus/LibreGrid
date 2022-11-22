@@ -214,6 +214,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.setState({
       headers: inputHeaders,
       extra: fetchedData,
+      fields: localFields,
       useLocalData: false,
     });
   }
