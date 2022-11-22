@@ -133,7 +133,19 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
             id="jsondisplay"
             onMouseDown={this.hideJsonDisplay}
           >
-            <textarea id="jsonoutput" rows={20} cols={80}></textarea>
+            <textarea id="jsonoutput" rows={20} cols={80}>
+              {' '}
+            </textarea>
+            <p>Right-click to close</p>
+            <p>
+              Use <code>CTRL-A</code> to Select All
+            </p>
+            <p>
+              Use <code>CTRL-C</code> to Copy
+            </p>
+            <p>
+              Use <code>CTRL-X</code> to Cut
+            </p>
           </div>
           <label htmlFor="allowDataReset">Allow Data Reset</label>
           <input
@@ -317,7 +329,6 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
       isLocal: true,
     });
 
-    //document.querySelector("#allowDataReset").checked = true;
     this.setState({
       targetData: [...this.preSearchData.values()],
       search: isSearchOn,
@@ -396,6 +407,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
       (document.querySelector('#jsondisplay') as HTMLElement).classList.add(
         'floatDoc'
       );
+      (document.querySelector('textarea') as HTMLElement).focus();
     });
   }
 
