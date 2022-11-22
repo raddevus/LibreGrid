@@ -15,13 +15,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     super(props);
     this.state = {
       headers: JSON.stringify(['ID', 'First', 'Last']),
-      fields: JSON.stringify(['id', 'first', 'last']),
     };
 
     this.state.extra = this.convertObjectsToMap(
       [{ id: 2, first: 'wilma', last: 'flintstone' }],
-      JSON.parse(this.state.fields)
+      ['id', 'first', 'last']
     );
+    this.state.fields = ['id', 'first', 'last'];
 
     console.log(`this.state.data.size : ${this.state.extra.size}`);
 
@@ -59,7 +59,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         <GridCrudR
           headers={JSON.parse(this.state.headers)}
           data={this.state.extra}
-          fields={JSON.parse(this.state.fields)}
+          fields={this.state.fields}
           numericSearchIndexes={JSON.parse('[0]')}
           editableIndexes={JSON.parse('[1,2]')}
           searchableIndexes={JSON.parse('[0,1,2]')}
@@ -74,6 +74,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
   }
   // #### NOTE DATA IN TEXT BOXES HAS TO
   // USE DOUBLE QUOTES (not single)
+  // ["ID","Name","birth_year","Height","Mass","Hair_color"]
   // ["id", "name","birth_year"]
   // ["id","first", "last"] // fields
   // ["ID","First Name", "Last Name"] //headers
@@ -127,11 +128,14 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
               { id: 25, first: 'occy', last: 'gruesome' },
               { id: 26, first: 'sam', last: 'slagheap' },
             ],
-            JSON.parse(this.state.fields)
+            ["id","first","last"]//this.state.fields
           );
           if (inputHeaders === '') {
             inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
           }
+          this.setState({
+            fields: ["id","first","last"]
+          })
           console.log('done...');
         } else {
           fetch(url)
@@ -146,26 +150,35 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           document.querySelector('#fields') as HTMLInputElement
         ).value;
         if (localFields !== '') {
+          console.log('IN IF >>>>');
           localFields = JSON.parse(localFields);
           console.log(`localFields : ${localFields}`);
           //return;
         } else {
-          localFields = sw_fields;
+          console.log('in ELSE...');
+          localFields = sw_fields; //["ID","Name","birth_year","Height","Mass","Hair_color"];
           console.log(`localFields : ${localFields}`);
         }
-        flintstones = this.convertObjectsToMap(sw_people, localFields, false);
+        flintstones = this.convertObjectsToMap(sw_people, localFields,false);
         inputHeaders = JSON.stringify(sw_headers);
+        this.setState({
+          fields: localFields,
+        });
         break;
       }
       default: {
-        flintstones = this.convertObjectsToMap(
-          JSON.parse(inObjects),
-          JSON.parse(this.state.fields)
-        );
+        flintstones = this.convertObjectsToMap(JSON.parse(inObjects), [
+          'id',
+          'first',
+          'last',
+        ]);
+        this.setState({
+          fields: JSON.stringify(['id', 'first', 'last']),
+        });
         inputHeaders = JSON.stringify(['']);
       }
     }
-
+    
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
     console.log(`second.size : ${flintstones.size}`);
@@ -219,7 +232,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     // 2. use counterAsIdx as index value
 
     if (!hasIdColumn) {
-      fieldNames.splice(0, 0, 'id');
+      // only splice in the "id" field if there isn't 
+      // already an id field in fieldNames
+      if (fieldNames.filter((fname: string) => {
+        return (fname as string).toLowerCase() == "id"
+        }).length == 0){
+          fieldNames.splice(0, 0, 'id');
+      }
     }
     console.log(fieldNames[0]);
 

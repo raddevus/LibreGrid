@@ -376,7 +376,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log(
       `in getJson() : targetData.size ${this.state.targetData.length}`
     );
-
+      console.log(`this.props.fields.length : ${this.props.fields.length}`);
     let rowCount = 0;
     let outData = `[`;
     this.state.targetData.forEach((value: any) => {
@@ -598,7 +598,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
   toLowerKeys(obj: any[]) {
     // got this method at: https://bobbyhadz.com/blog/javascript-lowercase-object-keys and altered it to work with array of objects
     return Object.keys(obj).reduce(
-      (accumulator, key : any) => {
+      (accumulator, key: any) => {
         accumulator[key.toLowerCase()] = obj[key];
         return accumulator as any;
       },
