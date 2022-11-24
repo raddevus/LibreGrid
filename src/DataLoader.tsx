@@ -18,12 +18,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     };
 
     this.state.extra = this.convertObjectsToMap(
-      [{ id: 2, first: 'wilma', last: 'flintstone' }],
+      [
+        { id: 1, first: 'fred', last: 'flintstone' },
+        { id: 2, first: 'wilma', last: 'flintstone' },
+      ],
       ['id', 'first', 'last']
     );
     this.state.fields = ['id', 'first', 'last'];
-
-    console.log(`this.state.data.size : ${this.state.extra.size}`);
 
     this.loadData = this.loadData.bind(this);
     this.preventDefault = this.preventDefault.bind(this);
@@ -32,30 +33,47 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     return (
       <div onContextMenu={this.preventDefault} id="dataLoader">
         <h2>DataLoader</h2>
-        <button onClick={this.loadData}>Load Data</button>
-        <input id="headers" type="text" placeholder="headers" />
+        <div>
+          <div className="dataSource">
+            <h3>Data Source</h3>
+            <input
+              id="data"
+              type="text"
+              placeholder="data (array of objects)"
+            />
+            <input id="dataFromHttp" type="text" placeholder="URL to API" />
+            <div>
+              <h3>Data Details</h3>
+              <input
+                id="fields"
+                type="text"
+                placeholder="fields (array of field names)"
+              />
+
+              <input
+                id="dataName"
+                type="text"
+                placeholder="data name (for data from URL)"
+              />
+            </div>
+          </div>
+        </div>
         <p>
-          <input id="data" type="text" placeholder="data (array of objects)" />
-          <input id="dataFromHttp" type="text" placeholder="URL to API" />
-          <input
-            id="fields"
-            type="text"
-            placeholder="fields (array of field names)"
-          />
-        </p>
-        <p>
-          <input
-            id="numericIdx"
-            type="text"
-            placeholder="numericSearchIndexes"
-          />
           <input id="editableIdx" type="text" placeholder="editableIndexes" />
           <input
             id="searchableIdx"
             type="text"
             placeholder="searchableIndexes"
           />
+          <input
+            id="numericIdx"
+            type="text"
+            placeholder="numericSearchIndexes"
+          />
         </p>
+        <button onClick={this.loadData}>Load Data</button>
+        <input id="headers" type="text" placeholder="headers" />
+
         <GridCrudR
           headers={JSON.parse(this.state.headers)}
           data={this.state.extra}
@@ -94,12 +112,12 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     let inFields = (document.querySelector('#fields') as HTMLInputElement)
       .value;
 
-    let flintstones: Map<number, []>;
+    let mainData: Map<number, []>;
 
     switch (inObjects.toLowerCase()) {
       case '': {
         if (url == '') {
-          flintstones = this.convertObjectsToMap(
+          mainData = this.convertObjectsToMap(
             [
               { id: 1, first: 'fred', last: 'flintstone' },
               { id: 2, first: 'wilma', last: 'flintstone' },
@@ -128,19 +146,30 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
               { id: 25, first: 'occy', last: 'gruesome' },
               { id: 26, first: 'sam', last: 'slagheap' },
             ],
-            ["id","first","last"]//this.state.fields
+            ['id', 'first', 'last'] //this.state.fields
           );
           if (inputHeaders === '') {
             inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
           }
           this.setState({
-            fields: ["id","first","last"]
-          })
+            fields: ['id', 'first', 'last'],
+          });
           console.log('done...');
         } else {
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => this.processFetchedData(data['results']));
+          // dataName must be "results" for StarWars API
+          let dataName = (
+            document.querySelector('#dataName') as HTMLInputElement
+          ).value;
+
+          if (dataName !== '') {
+            fetch(url)
+              .then((response) => response.json())
+              .then((data) => this.processFetchedData(data[dataName]));
+          } else {
+            fetch(url)
+              .then((response) => response.json())
+              .then((data) => this.processFetchedData(data));
+          }
           return;
         }
         break;
@@ -159,7 +188,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           localFields = sw_fields; //["ID","Name","birth_year","Height","Mass","Hair_color"];
           console.log(`localFields : ${localFields}`);
         }
-        flintstones = this.convertObjectsToMap(sw_people, localFields,false);
+        mainData = this.convertObjectsToMap(sw_people, localFields, false);
         inputHeaders = JSON.stringify(sw_headers);
         this.setState({
           fields: localFields,
@@ -167,25 +196,28 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         break;
       }
       default: {
-        flintstones = this.convertObjectsToMap(JSON.parse(inObjects), [
-          'id',
-          'first',
-          'last',
-        ]);
+        console.log('IN DEFAULT...');
+
+        mainData = this.convertObjectsToMap(
+          JSON.parse(inObjects),
+          JSON.parse(inFields),
+          false
+        );
+
         this.setState({
-          fields: ['id', 'first', 'last'],
+          fields: JSON.parse(inFields),
+          headers: JSON.parse(inputHeaders),
         });
-        inputHeaders = JSON.stringify(['']);
       }
     }
-    
+
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
-    console.log(`second.size : ${flintstones.size}`);
-    flintstones.forEach((x: any) => console.log(`second ${x}`));
+    console.log(`second.size : ${mainData.size}`);
+    mainData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: inputHeaders,
-      extra: flintstones,
+      extra: mainData,
       useLocalData: false,
     });
 
@@ -233,12 +265,14 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     // 2. use counterAsIdx as index value
 
     if (!hasIdColumn) {
-      // only splice in the "id" field if there isn't 
+      // only splice in the "id" field if there isn't
       // already an id field in fieldNames
-      if (fieldNames.filter((fname: string) => {
-        return (fname as string).toLowerCase() == "id"
-        }).length == 0){
-          fieldNames.splice(0, 0, 'id');
+      if (
+        fieldNames.filter((fname: string) => {
+          return (fname as string).toLowerCase() == 'id';
+        }).length == 0
+      ) {
+        fieldNames.splice(0, 0, 'id');
       }
     }
     console.log(fieldNames[0]);

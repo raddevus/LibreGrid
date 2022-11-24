@@ -133,9 +133,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
             id="jsondisplay"
             onMouseDown={this.hideJsonDisplay}
           >
-            <textarea id="jsonoutput" rows={20} cols={80}>
-              {' '}
-            </textarea>
+            <textarea id="jsonoutput" rows={20} cols={80}></textarea>
             <p>Right-click to close</p>
             <p>
               Use <code>CTRL-A</code> to Select All
@@ -376,7 +374,7 @@ export class GridCrudR extends React.Component<PropsParams, {}> {
     console.log(
       `in getJson() : targetData.size ${this.state.targetData.length}`
     );
-      console.log(`this.props.fields.length : ${this.props.fields.length}`);
+    console.log(`this.props.fields.length : ${this.props.fields.length}`);
     let rowCount = 0;
     let outData = `[`;
     this.state.targetData.forEach((value: any) => {
