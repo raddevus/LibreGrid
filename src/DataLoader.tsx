@@ -11,6 +11,8 @@ interface LoaderProps {
 export class DataLoader extends React.Component<LoaderProps, {}> {
   state: any = {};
   data = 'test this';
+  inputHeaders: string = "";
+  dataIncludesId: boolean = false;
   constructor(props: LoaderProps) {
     super(props);
     this.state = {
@@ -55,6 +57,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
                 type="text"
                 placeholder="data name (for data from URL)"
               />
+              <label htmlFor="dataIncludesId">Data Includes ID Column?</label>
+              <input id="dataIncludesId" type="checkbox" />
             </div>
           </div>
         </div>
@@ -103,14 +107,18 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     let url = (document.querySelector('#dataFromHttp') as HTMLInputElement)
       .value;
 
-    let inputHeaders = (document.querySelector('#headers') as HTMLInputElement)
+    this.inputHeaders = (document.querySelector('#headers') as HTMLInputElement)
       .value;
+    
+    console.log(this.inputHeaders);
 
     let inObjects = (document.querySelector('#data') as HTMLInputElement).value;
     console.log(inObjects);
 
     let inFields = (document.querySelector('#fields') as HTMLInputElement)
       .value;
+
+    this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
 
     let mainData: Map<number, []>;
 
@@ -148,8 +156,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             ],
             ['id', 'first', 'last'] //this.state.fields
           );
-          if (inputHeaders === '') {
-            inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
+          if (this.inputHeaders === '') {
+            this.inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
           }
           this.setState({
             fields: ['id', 'first', 'last'],
@@ -189,7 +197,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           console.log(`localFields : ${localFields}`);
         }
         mainData = this.convertObjectsToMap(sw_people, localFields, false);
-        inputHeaders = JSON.stringify(sw_headers);
+        this.inputHeaders = JSON.stringify(sw_headers);
         this.setState({
           fields: localFields,
         });
@@ -206,7 +214,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
         this.setState({
           fields: JSON.parse(inFields),
-          headers: JSON.parse(inputHeaders),
+          headers: JSON.parse(this.inputHeaders),
         });
       }
     }
@@ -216,7 +224,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     console.log(`second.size : ${mainData.size}`);
     mainData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
-      headers: inputHeaders,
+      headers: this.inputHeaders,
       extra: mainData,
       useLocalData: false,
     });
@@ -239,12 +247,14 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       localFields = sw_fields;
       console.log(`localFields : ${localFields}`);
     }
-    fetchedData = this.convertObjectsToMap(data, localFields, false);
-    let inputHeaders = JSON.stringify(sw_headers);
+    fetchedData = this.convertObjectsToMap(data, localFields, this.dataIncludesId);
+    if (this.inputHeaders === ""){
+      this.inputHeaders = JSON.stringify(sw_headers);
+    }
     console.log(`second.size : ${fetchedData.size}`);
     fetchedData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
-      headers: inputHeaders,
+      headers: this.inputHeaders,
       extra: fetchedData,
       fields: localFields,
       useLocalData: false,
