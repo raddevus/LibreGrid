@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style.css';
-import { GridCrudR } from './GridCrudR';
+import { LibreGrid } from './LibreGrid';
 import {DataLoader} from "./DataLoader";
 
 

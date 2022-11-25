@@ -10,7 +10,7 @@ interface PropsParams {
   useLocalData: boolean;
 }
 
-export class GridCrudR extends React.Component<PropsParams, {}> {
+export class LibreGrid extends React.Component<PropsParams, {}> {
   useLocalData: boolean = true;
   state: any = {};
   allHeaders: any = [];

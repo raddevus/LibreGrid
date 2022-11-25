@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GridCrudR } from './GridCrudR';
+import { LibreGrid } from './LibreGrid';
 import { sw_people, sw_fields, sw_headers } from './data/starwars.js';
 
 interface LoaderProps {
@@ -78,7 +78,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         </div>
         <button onClick={this.loadData}>Load Data</button>
 
-        <GridCrudR
+        <LibreGrid
           headers={JSON.parse(this.state.headers)}
           data={this.state.extra}
           fields={this.state.fields}
