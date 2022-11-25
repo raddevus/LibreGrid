@@ -184,12 +184,12 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
         if (inFields === '') {
           console.log('in ELSE...');
-          inFields = JSON.stringify(sw_fields); //["ID","Name","birth_year","Height","Mass","Hair_color"];
+          inFields = JSON.stringify( sw_fields); //["ID","Name","birth_year","Height","Mass","Hair_color"];
         } 
-        mainData = this.convertObjectsToMap(sw_people, inFields, false);
+        mainData = this.convertObjectsToMap(sw_people, JSON.parse(inFields), false);
         this.inputHeaders = JSON.stringify(sw_headers);
         this.setState({
-          fields: inFields,
+          fields: JSON.stringify(inFields),
         });
         break;
       }
