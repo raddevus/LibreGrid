@@ -110,8 +110,6 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.inputHeaders = (document.querySelector('#headers') as HTMLInputElement)
       .value;
     
-    console.log(this.inputHeaders);
-
     let inObjects = (document.querySelector('#data') as HTMLInputElement).value;
     console.log(inObjects);
 
@@ -183,19 +181,12 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         break;
       }
       case 'sw': {
-        let localFields: any = (
-          document.querySelector('#fields') as HTMLInputElement
-        ).value;
-        if (localFields !== '') {
-          console.log('IN IF >>>>');
-          localFields = JSON.parse(localFields);
-          console.log(`localFields : ${localFields}`);
-          //return;
-        } else {
+
+        if (inFields === '') {
           console.log('in ELSE...');
-          localFields = sw_fields; //["ID","Name","birth_year","Height","Mass","Hair_color"];
+          inFields = sw_fields; //["ID","Name","birth_year","Height","Mass","Hair_color"];
           console.log(`localFields : ${localFields}`);
-        }
+        } 
         mainData = this.convertObjectsToMap(sw_people, localFields, false);
         this.inputHeaders = JSON.stringify(sw_headers);
         this.setState({
