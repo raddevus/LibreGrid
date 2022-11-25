@@ -58,7 +58,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             </div>
           </div>
         </div>
-        <p>
+        <div className="extraData">
+          <input id="headers" type="text" placeholder="column header text" />
           <input id="editableIdx" type="text" placeholder="editableIndexes" />
           <input
             id="searchableIdx"
@@ -70,9 +71,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             type="text"
             placeholder="numericSearchIndexes"
           />
-        </p>
+        </div>
         <button onClick={this.loadData}>Load Data</button>
-        <input id="headers" type="text" placeholder="headers" />
 
         <GridCrudR
           headers={JSON.parse(this.state.headers)}
