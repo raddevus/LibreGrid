@@ -83,7 +83,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           data={this.state.extra}
           fields={this.state.fields}
           numericSearchIndexes={JSON.parse('[0]')}
-          editableIndexes={JSON.parse('[1,2]')}
+          editableIndexes={this.state.editableIndexes}
           searchableIndexes={JSON.parse('[0,1,2]')}
           useLocalData={this.state.useLocalData}
         />
@@ -117,6 +117,17 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       .value;
 
     this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
+    let idx = (document.querySelector('#editableIdx') as HTMLInputElement).value;
+    let editableIndexes: any = [];
+    if (idx !== ""){
+      let editableIndexes = JSON.parse(idx);
+      console.log(`editableIndexes: ${editableIndexes}`);
+      console.log(editableIndexes);
+    }
+
+    this.setState({
+      editableIndexes: editableIndexes
+    });
 
     let mainData: Map<number, []>;
 
@@ -152,13 +163,14 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
               { id: 25, first: 'occy', last: 'gruesome' },
               { id: 26, first: 'sam', last: 'slagheap' },
             ],
-            ['id', 'first', 'last'] //this.state.fields
+            ['id', 'first', 'last']
           );
           if (this.inputHeaders === '') {
             this.inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
           }
           this.setState({
             fields: ['id', 'first', 'last'],
+            editableIndexes: JSON.parse('[1,2]')
           });
           console.log('done...');
         } else {
@@ -190,6 +202,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         this.inputHeaders = JSON.stringify(sw_headers);
         this.setState({
           fields: JSON.stringify(inFields),
+          editableIndexes: editableIndexes
         });
         break;
       }
