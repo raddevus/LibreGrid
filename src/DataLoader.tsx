@@ -27,6 +27,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       ['id', 'first', 'last']
     );
     this.state.fields = ['id', 'first', 'last'];
+    this.state.editableIndexes = JSON.stringify([1,2]);
 
     this.loadData = this.loadData.bind(this);
     this.preventDefault = this.preventDefault.bind(this);
@@ -83,7 +84,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           data={this.state.extra}
           fields={this.state.fields}
           numericSearchIndexes={JSON.parse('[0]')}
-          editableIndexes={this.state.editableIndexes}
+          editableIndexes={JSON.parse(this.state.editableIndexes)} 
           searchableIndexes={JSON.parse('[0,1,2]')}
           useLocalData={this.state.useLocalData}
         />
@@ -104,6 +105,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
   // [] // searchableIndexes
   // [1] //numericSearchIndexes
   loadData() {
+
     let url = (document.querySelector('#dataFromHttp') as HTMLInputElement)
       .value;
 
@@ -117,18 +119,9 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       .value;
 
     this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
+
     let idx = (document.querySelector('#editableIdx') as HTMLInputElement).value;
-    let editableIndexes: any = [];
-    if (idx !== ""){
-      let editableIndexes = JSON.parse(idx);
-      console.log(`editableIndexes: ${editableIndexes}`);
-      console.log(editableIndexes);
-    }
-
-    this.setState({
-      editableIndexes: editableIndexes
-    });
-
+    
     let mainData: Map<number, []>;
 
     switch (inObjects.toLowerCase()) {
@@ -166,12 +159,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             ['id', 'first', 'last']
           );
           if (this.inputHeaders === '') {
-            this.inputHeaders = JSON.stringify(['ID-X', 'Last', 'First']);
+            this.inputHeaders = JSON.stringify(['ID-X', 'First', 'Last']);
           }
-          this.setState({
-            fields: ['id', 'first', 'last'],
-            editableIndexes: JSON.parse('[1,2]')
-          });
+          // this.setState({
+          //   fields: ["id", "first","last"],
+          // });
           console.log('done...');
         } else {
           // dataName must be "results" for StarWars API
@@ -202,7 +194,6 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         this.inputHeaders = JSON.stringify(sw_headers);
         this.setState({
           fields: JSON.stringify(inFields),
-          editableIndexes: editableIndexes
         });
         break;
       }
@@ -224,10 +215,20 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
-    console.log(`second.size : ${mainData.size}`);
-    mainData.forEach((x: any) => console.log(`second ${x}`));
+    let editableIndexes: number[] = [];
+    if (idx !== ""){
+      editableIndexes = JSON.parse(idx);
+      console.log(`editableIndexes: ${editableIndexes}`);
+      console.log(editableIndexes);
+    }
+    console.log(`BEFORE`);
+    //console.log(`${editableIndexes ? editableIndexes : JSON.parse("[]")}`);
+
+    //console.log(`second.size : ${mainData.size}`);
+    //mainData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: this.inputHeaders,
+      editableIndexes : JSON.stringify(editableIndexes),//[1,2],//editableIndexes ? editableIndexes : JSON.parse("[]"),
       extra: mainData,
       useLocalData: false,
     });
@@ -288,7 +289,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         fieldNames.splice(0, 0, 'id');
       }
     }
-    console.log(fieldNames[0]);
+    // console.log(fieldNames[0]);
 
     targetObject.map((x: any, colIdx: number) => {
       // next line insures all property names in incoming JSON
@@ -301,7 +302,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       fieldNames.map((name: string) => {
         // insures that field names match even if case is different
         name = name.toLowerCase();
-        console.log(`fieldNames: name -> ${name}`);
+        // console.log(`fieldNames: name -> ${name}`);
         if (x[name] === undefined) {
           return;
         }
