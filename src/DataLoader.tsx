@@ -174,11 +174,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           if (dataName !== '') {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data[dataName]));
+              .then((data) => this.processFetchedData(data[dataName], idx));
           } else {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data));
+              .then((data) => this.processFetchedData(data, idx));
           }
           return;
         }
@@ -228,7 +228,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     //mainData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: this.inputHeaders,
-      editableIndexes : JSON.stringify(editableIndexes),//[1,2],//editableIndexes ? editableIndexes : JSON.parse("[]"),
+      editableIndexes: idx !== "" ? idx : "[0]",
       extra: mainData,
       useLocalData: false,
     });
@@ -236,7 +236,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.state.extra.forEach((x: any) => console.log(`local data => ${x}`));
   }
 
-  processFetchedData(data: [{}]) {
+  processFetchedData(data: [{}], idx: string ) {
     let fetchedData;
     console.log(`processFetchedData...`);
     console.log(data);
@@ -255,12 +255,21 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     if (this.inputHeaders === ""){
       this.inputHeaders = JSON.stringify(sw_headers);
     }
+
+    let editableIndexes: number[] = [];
+    if (idx !== ""){
+      editableIndexes = JSON.parse(idx);
+      console.log(`editableIndexes: ${editableIndexes}`);
+      console.log(editableIndexes);
+    }
+
     console.log(`second.size : ${fetchedData.size}`);
     fetchedData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: this.inputHeaders,
       extra: fetchedData,
       fields: localFields,
+      editableIndexes: idx !== "" ? idx : "[0]",
       useLocalData: false,
     });
   }

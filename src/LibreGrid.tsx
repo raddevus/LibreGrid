@@ -100,7 +100,7 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
     );
 
     this.state.headers = [];
-    this.state.headers.push(<th key="placeholdervalue"></th>);
+    this.state.headers.push(<th key="10000"></th>);
     for (const idx in this.props.headers) {
       let title = this.props.headers[idx];
       if (this.state.sortBy == idx) {
