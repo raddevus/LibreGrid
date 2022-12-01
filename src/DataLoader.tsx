@@ -161,9 +161,9 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           if (this.inputHeaders === '') {
             this.inputHeaders = JSON.stringify(['ID-X', 'First', 'Last']);
           }
-          // this.setState({
-          //   fields: ["id", "first","last"],
-          // });
+          this.setState({
+            fields: ["id", "first","last"],
+          });
           console.log('done...');
         } else {
           // dataName must be "results" for StarWars API
