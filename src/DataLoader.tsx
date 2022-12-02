@@ -28,6 +28,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     );
     this.state.fields = ['id', 'first', 'last'];
     this.state.editableIndexes = JSON.stringify([1,2]);
+    this.state.searchableIndexes = JSON.stringify([0,1,2]);
 
     this.loadData = this.loadData.bind(this);
     this.preventDefault = this.preventDefault.bind(this);
@@ -85,7 +86,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           fields={this.state.fields}
           numericSearchIndexes={JSON.parse('[0]')}
           editableIndexes={JSON.parse(this.state.editableIndexes)} 
-          searchableIndexes={JSON.parse('[0,1,2]')}
+          searchableIndexes={JSON.parse(this.state.searchableIndexes)}
           useLocalData={this.state.useLocalData}
         />
       </div>
@@ -121,6 +122,9 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
 
     let idx = (document.querySelector('#editableIdx') as HTMLInputElement).value;
+
+    let inSearchableIndexes = (document.querySelector('#searchableIdx') as HTMLInputElement)
+    .value;
     
     let mainData: Map<number, []>;
 
@@ -174,11 +178,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           if (dataName !== '') {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data[dataName], idx));
+              .then((data) => this.processFetchedData(data[dataName], idx, inSearchableIndexes));
           } else {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data, idx));
+              .then((data) => this.processFetchedData(data, idx, inSearchableIndexes));
           }
           return;
         }
@@ -215,20 +219,10 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
-    let editableIndexes: number[] = [];
-    if (idx !== ""){
-      editableIndexes = JSON.parse(idx);
-      console.log(`editableIndexes: ${editableIndexes}`);
-      console.log(editableIndexes);
-    }
-    console.log(`BEFORE`);
-    //console.log(`${editableIndexes ? editableIndexes : JSON.parse("[]")}`);
-
-    //console.log(`second.size : ${mainData.size}`);
-    //mainData.forEach((x: any) => console.log(`second ${x}`));
     this.setState({
       headers: this.inputHeaders,
       editableIndexes: idx !== "" ? idx : "[0]",
+      searchableIndexes: inSearchableIndexes !== "" ? inSearchableIndexes: "[0]",
       extra: mainData,
       useLocalData: false,
     });
@@ -236,7 +230,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.state.extra.forEach((x: any) => console.log(`local data => ${x}`));
   }
 
-  processFetchedData(data: [{}], idx: string ) {
+  processFetchedData(data: [{}], idx: string, inSearchableIndexes: string ) {
     let fetchedData;
     console.log(`processFetchedData...`);
     console.log(data);
@@ -257,19 +251,16 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     }
 
     let editableIndexes: number[] = [];
-    if (idx !== ""){
-      editableIndexes = JSON.parse(idx);
-      console.log(`editableIndexes: ${editableIndexes}`);
-      console.log(editableIndexes);
-    }
-
+    
     console.log(`second.size : ${fetchedData.size}`);
     fetchedData.forEach((x: any) => console.log(`second ${x}`));
+    
     this.setState({
       headers: this.inputHeaders,
       extra: fetchedData,
       fields: localFields,
-      editableIndexes: idx !== "" ? idx : "[0]",
+      editableIndexes: idx !== "" ? JSON.parse(idx) : "[0]",
+      searchableIndexes: inSearchableIndexes !== "" ? JSON.parse(inSearchableIndexes): "[0]",
       useLocalData: false,
     });
   }
