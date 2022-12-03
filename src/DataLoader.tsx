@@ -29,6 +29,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.state.fields = ['id', 'first', 'last'];
     this.state.editableIndexes = JSON.stringify([1,2]);
     this.state.searchableIndexes = JSON.stringify([0,1,2]);
+    this.state.numSortIndexes = JSON.stringify([0]);
 
     this.loadData = this.loadData.bind(this);
     this.preventDefault = this.preventDefault.bind(this);
@@ -84,7 +85,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           headers={JSON.parse(this.state.headers)}
           data={this.state.extra}
           fields={this.state.fields}
-          numericSortIndexes={JSON.parse('[0]')}
+          numericSortIndexes={JSON.parse(this.state.numSortIndexes)}
           editableIndexes={JSON.parse(this.state.editableIndexes)} 
           searchableIndexes={JSON.parse(this.state.searchableIndexes)}
           useLocalData={this.state.useLocalData}
@@ -125,6 +126,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     let inSearchableIndexes = (document.querySelector('#searchableIdx') as HTMLInputElement)
     .value;
+
+    let numSortIndexes = (document.querySelector('#numSortIdx') as HTMLInputElement).value;
     
     let mainData: Map<number, []>;
 
