@@ -121,7 +121,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
 
-    let idx = (document.querySelector('#editableIdx') as HTMLInputElement).value;
+    let editIdx = (document.querySelector('#editableIdx') as HTMLInputElement).value;
 
     let inSearchableIndexes = (document.querySelector('#searchableIdx') as HTMLInputElement)
     .value;
@@ -178,11 +178,11 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           if (dataName !== '') {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data[dataName], idx, inSearchableIndexes));
+              .then((data) => this.processFetchedData(data[dataName], editIdx, inSearchableIndexes));
           } else {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data, idx, inSearchableIndexes));
+              .then((data) => this.processFetchedData(data, editIdx, inSearchableIndexes));
           }
           return;
         }
@@ -221,7 +221,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
 
     this.setState({
       headers: this.inputHeaders,
-      editableIndexes: idx !== "" ? idx : "[0]",
+      editableIndexes: editIdx !== "" ? editIdx : "[0]",
       searchableIndexes: inSearchableIndexes !== "" ? inSearchableIndexes: "[0]",
       extra: mainData,
       useLocalData: false,
@@ -230,7 +230,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.state.extra.forEach((x: any) => console.log(`local data => ${x}`));
   }
 
-  processFetchedData(data: [{}], idx: string, inSearchableIndexes: string ) {
+  processFetchedData(data: [{}], editIdx: string, inSearchableIndexes: string ) {
     let fetchedData;
     console.log(`processFetchedData...`);
     console.log(data);
@@ -259,7 +259,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       headers: this.inputHeaders,
       extra: fetchedData,
       fields: localFields,
-      editableIndexes: idx !== "" ? JSON.parse(idx) : "[0]",
+      editableIndexes: editIdx !== "" ? JSON.parse(editIdx) : "[0]",
       searchableIndexes: inSearchableIndexes !== "" ? JSON.parse(inSearchableIndexes): "[0]",
       useLocalData: false,
     });
