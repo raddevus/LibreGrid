@@ -181,11 +181,13 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           if (dataName !== '') {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data[dataName], editIdx, inSearchableIndexes));
+              .then((data) => this.processFetchedData(data[dataName], editIdx,
+                 inSearchableIndexes,numSortIndexes));
           } else {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.processFetchedData(data, editIdx, inSearchableIndexes));
+              .then((data) => this.processFetchedData(data, editIdx, 
+                inSearchableIndexes,numSortIndexes));
           }
           return;
         }
@@ -226,6 +228,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       headers: this.inputHeaders,
       editableIndexes: editIdx !== "" ? editIdx : "[0]",
       searchableIndexes: inSearchableIndexes !== "" ? inSearchableIndexes: "[0]",
+      numSortIndexes : numSortIndexes !== "" ? numSortIndexes: "[0]",
       extra: mainData,
       useLocalData: false,
     });
@@ -233,7 +236,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.state.extra.forEach((x: any) => console.log(`local data => ${x}`));
   }
 
-  processFetchedData(data: [{}], editIdx: string, inSearchableIndexes: string ) {
+  processFetchedData(data: [{}], editIdx: string, inSearchableIndexes: string, inNumSortIdx: string ) {
     let fetchedData;
     console.log(`processFetchedData...`);
     console.log(data);
@@ -264,6 +267,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       fields: localFields,
       editableIndexes: editIdx !== "" ? JSON.parse(editIdx) : "[0]",
       searchableIndexes: inSearchableIndexes !== "" ? JSON.parse(inSearchableIndexes): "[0]",
+      numSortIndexes : inNumSortIdx !== "" ? inNumSortIdx: "[0]",
       useLocalData: false,
     });
   }
