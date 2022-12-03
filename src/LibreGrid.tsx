@@ -4,7 +4,7 @@ interface PropsParams {
   headers: string[];
   data: Map<number, []>;
   fields: string[];
-  numericSearchIndexes: number[];
+  numericSortIndexes: number[];
   editableIndexes: number[];
   searchableIndexes: number[];
   useLocalData: boolean;
@@ -482,9 +482,9 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
     const isDescending =
       this.state.sortBy === columnIdx && !this.state.descending;
     console.log(`you clicked, ${e.target.cellIndex}`);
-    const { numericSearchIndexes } = this.props;
+    const { numericSortIndexes } = this.props;
     let useNumberSort =
-      numericSearchIndexes.filter((numidx) => numidx == columnIdx).length > 0;
+      numericSortIndexes.filter((numidx) => numidx == columnIdx).length > 0;
 
     if (useNumberSort) {
       this.sortNumber(sortTarget, columnIdx, isDescending);

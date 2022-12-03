@@ -73,9 +73,9 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
             placeholder="searchableIndexes"
           />
           <input
-            id="numericIdx"
+            id="numSortIdx"
             type="text"
-            placeholder="numericSearchIndexes"
+            placeholder="numericSortIndexes"
           />
         </div>
         <button onClick={this.loadData}>Load Data</button>
@@ -84,7 +84,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
           headers={JSON.parse(this.state.headers)}
           data={this.state.extra}
           fields={this.state.fields}
-          numericSearchIndexes={JSON.parse('[0]')}
+          numericSortIndexes={JSON.parse('[0]')}
           editableIndexes={JSON.parse(this.state.editableIndexes)} 
           searchableIndexes={JSON.parse(this.state.searchableIndexes)}
           useLocalData={this.state.useLocalData}
@@ -104,7 +104,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
   // ["ID","First Name", "Last Name"] //headers
   // [{ "first":"fred","last":"flintstone"}]
   // [] // searchableIndexes
-  // [1] //numericSearchIndexes
+  // [1] //numericSortIndexes
   loadData() {
 
     let url = (document.querySelector('#dataFromHttp') as HTMLInputElement)
