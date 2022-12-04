@@ -120,6 +120,7 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
 
     return (
       <div id="mainGrid" onKeyDown={this.escKeyHandler}>
+        <h2 className="green">LibreGrid</h2>
         <hr />
         <div>
           <button className="toolbar" onClick={this.toggleSearch}>
