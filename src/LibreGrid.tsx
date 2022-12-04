@@ -421,6 +421,9 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
     console.log(`maxKey : ${maxKey}`);
     let newRow: any = [++maxKey, 'test2', 'test3'];
 
+    // sets the newly added row as a changed row so it'll show up highlighted green
+    this.allChangedRows.set(maxKey, newRow!);
+
     this.gridData.set(maxKey, newRow);
     this.setState({
       targetData: [...this.gridData.values()],
