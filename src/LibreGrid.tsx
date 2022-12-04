@@ -427,6 +427,7 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
     this.gridData.set(maxKey, newRow);
     this.setState({
       targetData: [...this.gridData.values()],
+      isLocal: true
     });
   }
 
