@@ -25,7 +25,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         { id: 1, first: 'fred', last: 'flintstone' },
         { id: 2, first: 'wilma', last: 'flintstone' },
       ],
-      ['id', 'first', 'last']
+      fs_fields
     );
     this.state.fields = ['id', 'first', 'last'];
     this.state.editableIndexes = JSON.stringify([1,2]);
