@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { LibreGrid } from './LibreGrid';
 import { sw_people, sw_fields, sw_headers } from './data/starwars.js';
+import {flintstones, fs_fields} from './data/flintstones'
 
 interface LoaderProps {
   headers: string[];
@@ -135,35 +136,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       case '': {
         if (url == '') {
           mainData = this.convertObjectsToMap(
-            [
-              { id: 1, first: 'fred', last: 'flintstone' },
-              { id: 2, first: 'wilma', last: 'flintstone' },
-              { id: 3, first: 'pebbles', last: 'flintstone' },
-              { id: 4, first: 'barney', last: 'rubble' },
-              { id: 5, first: 'betty', last: 'rubble' },
-              { id: 6, first: 'bamm-bamm', last: 'rubble' },
-              { id: 7, first: 'dino', last: 'flintstone' },
-              { id: 8, first: 'hoppy', last: 'rubble' },
-              { id: 9, first: 'great', last: 'gazoo' },
-              { id: 10, first: 'pearl', last: 'slaghoople' },
-              { id: 11, first: 'tex', last: 'hardrock' },
-              { id: 12, first: 'george', last: 'slate' },
-              { id: 13, first: 'joe', last: 'rockhead' },
-              { id: 14, first: 'jethro', last: 'hatrock' },
-              { id: 15, first: 'zack', last: 'hatrock' },
-              { id: 16, first: 'slab', last: 'hatrock' },
-              { id: 17, first: 'granny', last: 'hatrock' },
-              { id: 18, first: 'benji', last: 'hatrock' },
-              { id: 19, first: 'percy', last: 'hatrock' },
-              { id: 20, first: 'weirdly', last: 'gruesome' },
-              { id: 21, first: 'creepella', last: 'gruesome' },
-              { id: 22, first: 'gobby', last: 'gruesome' },
-              { id: 23, first: 'ghastly', last: 'gruesome' },
-              { id: 24, first: 'schneider', last: 'gruesome' },
-              { id: 25, first: 'occy', last: 'gruesome' },
-              { id: 26, first: 'sam', last: 'slagheap' },
-            ],
-            ['id', 'first', 'last']
+            flintstones,
+            fs_fields
           );
           if (this.inputHeaders === '') {
             this.inputHeaders = JSON.stringify(['ID-X', 'First', 'Last']);
