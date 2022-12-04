@@ -134,7 +134,7 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
             id="jsondisplay"
             onMouseDown={this.hideJsonDisplay}
           >
-            <textarea id="jsonoutput" rows={20} cols={80}></textarea>
+            <textarea id="jsonoutput" rows={20} cols={80} spellCheck="false"></textarea>
             <p>Right-click to close</p>
             <p>
               Use <code>CTRL-A</code> to Select All
