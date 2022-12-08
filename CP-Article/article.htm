@@ -1,0 +1,75 @@
+<h2>Introduction</h2>
+
+<p><strong>Tags</strong> = Javascript, ReactJS, CRUD, frosting, HTML5, Typescript,</p>
+
+<p>The LibreGrid component, which I&#39;ve built on top of React allows you to View, Sort, Search, Edit and generate JSON from your custom Domain Object(s).&nbsp;</p>
+
+<h3>One Requirement For Use</h3>
+
+<p>You must have a collection of your Domain Objects: Your domain objects must be contained in an array.&nbsp; This is very common format that is used by 99% of WebAPIs anyways so this shouldn&#39;t cause you any problem.&nbsp; This just means that your JSON will be in the format of :</p>
+
+<pre lang="jscript">
+// [ ] represents outer array
+// each { } represents each domain object
+[ 
+&nbsp; {
+&nbsp;&nbsp;&nbsp; &quot;fake-prop&quot;: &quot;fake-value 1&quot;
+&nbsp; },
+&nbsp; {
+&nbsp;&nbsp;&nbsp; &quot;fake-prop&quot;: &quot;fake-value 2&quot;
+&nbsp; }
+]</pre>
+
+<p>Believe it or not, using just that simple data, I can show you how easy it is to load the LibreGrid with your custom data.&nbsp; It may not seem amazing yet, but when we load the results from a custom WebAPI I believe you&#39;ll be amazed.&nbsp; I hope so.</p>
+
+<h2>Let Me Show You How Easily You Can Use Component</h2>
+
+<p>Now, for the fast crowd, let me show you how easily you can use my <code>LibreGrid</code> component.</p>
+
+<p>Then, after I show you it in action, we&#39;ll come back here and learn a bit more about how it works.</p>
+
+<h3>Ugly User Interface</h3>
+
+<p>I actually made the UI quite ugly for now for two reasons:</p>
+
+<ol>
+	<li>I don&#39;t want the reader to focus on what it all looks like right now</li>
+	<li>It&#39;s extremely easy to add a layer of CSS which will make your implementation of the LibreGrid component beautiful.</li>
+</ol>
+
+<h4>Parent &amp; Child React Component</h4>
+
+<p>The image that follows shows the UI with two main headers (one black one &amp; one green one).&nbsp; Those headers each define the area of a separate React component</p>
+<ol>
+    <li>DataLoader - The parent React component which I built for this article so you can see the LibreGrid in action.&nbsp; The DataLoader&#39;s content ends with the [Load Data] button.</li>
+    <ul>
+        <li>DataLoader is made up of a number of HTML Input controls (all text boxes except the one checkbox and the one [Load Data] button).</li>
+    </ul>
+    <li>LibreGrid</li>
+    <ul>
+        <li>I've added the LibreGrid  as a child component to the example so we can pass in data from the parent (DataLoader). 
+            <br/>This is where your Domain Model data will be displayed for sorting, searching, editing & generating altered JSON.</li>
+    </ul>
+</ol>
+
+<p><img height="540" src="LibreGrid_002.png" width="975" /></p>
+
+<h3>DataLoader - Component Which Uses LibreGrid</h3>
+
+<p>I&#39;ve created an additional React Component that uses the target LibreGrid in order to show you how easy it is to load your custom data (domain objects) into the LibreGrid.</p>
+
+<p>First, of all, you can see that when the app runs it initially loads some sa mple data (<a href="https://en.wikipedia.org/wiki/The_Flintstones">based on Flintstones cartoon characters</a>[<a href="https://en.wikipedia.org/wiki/The_Flintstones" target="_blank" title="New Window">^</a>]).&nbsp; We can just ignore that for now.</p>
+
+<h4>Focus On Three HTML Text Input Boxes</h4>
+
+<p>To begin, we will just use three of the HTML text input fields to load our data.</p>
+<ol>
+    <li><strong>Data</strong> - text input where we&#39;ll paste our JSON which represents our array of domain objects</li>
+    <li><strong>Fields</strong> - text input where we&#39;ll type an array of strings which represent the field names which are found in the domain objects</li>
+    <li><strong>Column Headers</strong> - text input where we&#39;ll type an array of strings which will represent the header text which will appear above each column in our LibreGrid</li>
+</ol>
+
+
+<p>Domain</p>
+
+

@@ -1,0 +1,206 @@
+<h2>Introduction</h2>
+
+<p><strong>Tags</strong> = Javascript, ReactJS, CRUD, frosting, HTML5, Typescript,</p>
+
+<p>The LibreGrid component, which I&#39;ve built on top of React allows you to View, Sort, Search, Edit and generate JSON from your custom Domain Object(s).&nbsp;</p>
+
+<h3>One Requirement For Use</h3>
+
+<p>You must have a collection of your Domain Objects: Your domain objects must be contained in an array.&nbsp; This is very common format that is used by 99% of WebAPIs anyways so this shouldn&#39;t cause you any problem.&nbsp; This just means that your JSON will be in the format of :</p>
+
+<pre lang="jscript">
+// [ ] represents outer array
+// each { } represents each domain object
+[ 
+&nbsp; {
+&nbsp;&nbsp;&nbsp; &quot;fake-prop&quot;: &quot;fake-value 1&quot;
+&nbsp; },
+&nbsp; {
+&nbsp;&nbsp;&nbsp; &quot;fake-prop&quot;: &quot;fake-value 2&quot;
+&nbsp; }
+]</pre>
+
+<p>Believe it or not, using just that simple data, I can show you how easy it is to load the LibreGrid with your custom data.&nbsp; It may not seem amazing yet, but when we load the results from a custom WebAPI I believe you&#39;ll be amazed.&nbsp; I hope so.</p>
+
+<h2>Let Me Show You How Easily You Can Use Component</h2>
+
+<p>Now, for the fast crowd, let me show you how easily you can use my <code>LibreGrid</code> component.</p>
+
+<p>Then, after I show you it in action, we&#39;ll come back here and learn a bit more about how it works.</p>
+
+<h3>Ugly User Interface</h3>
+
+<p>I actually made the UI quite ugly for now for two reasons:</p>
+
+<ol>
+	<li>I don&#39;t want the reader to focus on what it all looks like right now</li>
+	<li>It&#39;s extremely easy to add a layer of CSS which will make your implementation of the LibreGrid component beautiful.</li>
+</ol>
+
+<h4>Parent &amp; Child React Component</h4>
+
+<p>The image that follows shows the UI with two main headers (one black one &amp; one green one).&nbsp; Those headers each define the area of a separate React component</p>
+<ol>
+    <li>DataLoader - The parent React component which I built for this article so you can see the LibreGrid in action.&nbsp; The DataLoader&#39;s content ends with the [Load Data] button.</li>
+    <ul>
+        <li>DataLoader is made up of a number of HTML Input controls (all text boxes except the one checkbox and the one [Load Data] button).</li>
+    </ul>
+</ol>
+
+<p><img height="540" src="LibreGrid_002.png" width="975" /></p>
+
+<h3>DataLoader - Component Which Uses LibreGrid</h3>
+
+<p>I&#39;ve created an additional React Component that uses the target LibreGrid in order to show you how easy it is to load your custom data (domain objects) into the LibreGrid.</p>
+
+<p>First, of all, you can see that when the app runs it initially loads some sa mple data (<a href="https://en.wikipedia.org/wiki/The_Flintstones">based on Flintstones cartoon characters</a>[<a href="https://en.wikipedia.org/wiki/The_Flintstones" target="_blank" title="New Window">^</a>]).&nbsp; We can just ignore that for now.</p>
+
+<h4>Focus On Three HTML Text Input Boxes</h4>
+
+<p>To begin, we will just use three of the HTML text input fields to load our data.</p>
+<ol>
+    <li><strong>Data</strong> - text input where we&#39;ll paste our JSON which represents our array of domain objects</li>
+    <li><strong>Fields</strong> - text input where we&#39;ll type an array of strings which represent the field names which are found in the domain objects</li>
+    <li><strong>Column Headers</strong> - text input where we&#39;ll type an array of strings which will represent the header text which will appear above each column in our LibreGrid</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>Domain</p>
+
+<p>&nbsp;</p>
+
+<h3>Killer App</h3>
+
+<p>As you probably know, a <a href="https://en.wikipedia.org/wiki/Killer_application">Killer App</a>[<a href="https://en.wikipedia.org/wiki/Killer_application" target="_blank" title="New Window">^</a>] is an app so good that it finally compels many to use a hardware system.&nbsp; The original Killer App was the VisiCalc Spreadsheet on the Apple II.&nbsp; A vast number of people bought Apple II computers just so they could use that app.</p>
+
+<h3>Killer Component</h3>
+
+<p>I&#39;ve been working on a It-Does-Everything Component built on top of ReactJS and I&#39;m calling it the Killer Component because I&#39;m convinced that you&#39;ll finally want to learn React so you can use it.</p>
+
+<p>Or, even if you don&#39;t want to learn React you&#39;ll at least want to use this component.&nbsp;</p>
+
+<p>Before I show you how the component works, let&#39;s first take a look at :</p>
+
+<h3>See It In Action</h3>
+
+<p>First, let&#39;s take a look at it in action with this video which shows you:</p>
+
+<p>&nbsp;</p>
+
+<h2>Numerous Videos Show LibreGrid In Action</h2>
+
+<h3>Load Data - (Default Data)</h3>
+
+<h4>Sort Data (Numeric or Text Sort)</h4>
+
+<h3>Load Data - Star Wars (Static Data)</h3>
+
+<h3>Load Data - Star Wars via SWAPI (StarWars API)</h3>
+
+<h3>Load Data - Pokemon via API</h3>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h2>Reasons You Will Want to Use This Component</h2>
+
+<p>Point this component at any JSON data set and you&#39;ll be able to CRUD the data.</p>
+
+<h2>Background</h2>
+
+<p>I recently learned React and this is the React component that I wanted so I decided to build it and share it.</p>
+
+<p>I&#39;m not sure why there isn&#39;t something like this out there already.&nbsp; I believe you&#39;ll find it can help you build a lot of apps very fast, and it can give you a great idea of how well React actually works.</p>
+
+<p>First, let&#39;s take a look at it the component in action.</p>
+
+<p>React</p>
+
+<p>90% of apps are nothing more than a way to CRUD (Create, Read, Update, Delete) your data.</p>
+
+<p>In this article I will walk you through a component built in React which will provide you with everything you need to:</p>
+
+<p>This control is so customizable that I&#39;m going to provide a way for you to test it by entering appropriate items of your data and see it work on a live web app.</p>
+
+<h2>&nbsp;</h2>
+
+<h1>Using The Component</h1>
+
+<p>&nbsp;</p>
+
+<h2>Using the code</h2>
+
+<p>A brief description of how to use the article or code. The class names, the methods and properties, any tricks or tips.</p>
+
+<p>Blocks of code should be set as style &quot;Formatted&quot; like this:</p>
+
+<pre lang="C++">
+//
+// Any source code blocks look like this
+//</pre>
+
+<p>&nbsp;</p>
+
+<p>Remember to set the Language of your code snippet using the Language dropdown.</p>
+
+<p>Use the &quot;var&quot; button to to wrap Variable or class names in &lt;code&gt; tags like <code>this</code>.</p>
+
+<h2>Points of Interest</h2>
+
+<p>Did you learn anything interesting/fun/annoying while writing the code? Did you do anything particularly clever or wild or zany?</p>
+
+<h2>History</h2>
+
+<p>Keep a running update of any changes or improvements you&#39;ve made here.</p>
+
+
+
+
+	
+
+	<ol>
+		<li>what it does</li>
+		<li>how fast you can implement it in your own solutions (in 10 minutes you&#39;ll have it CRUDing your custom data - even less with the sample I cover ( I call it DataLoader) in this article)</li>
+	</ol>
+
+	<ul>
+		<li>How easy it is to get it working with your custom JSON -- you can load it via fetch or provide a text representation of your JSON.&nbsp; You&#39;ll have it working with your data in seconds.</li>
+		<li>See all the features:
+		<ul>
+			<li>Search your data</li>
+			<li>Sort your data (numerically or alphabetically)</li>
+			<li>Edit your data (changed rows are highlighted so you can see which ones are altered)
+			<ul>
+				<li>Revert changes you&#39;ve made by selecting the row or rows &amp; clicking button</li>
+			</ul>
+			</li>
+			<li>Load data via HTTP (web api) - my example loads data from the Star Wars API (swapi)</li>
+		</ul>
+		</li>
+	</ul>
+
+	<ul>
+		<li>Provides you with an instant way to Create, Read, Update or Delete data in JSON dataset.
+		<ul>
+			<li>A <strong>complete JSON editor </strong>that can be set up in seconds to use your custom JSON data</li>
+		</ul>
+		</li>
+		<li>Drop the component into any web app, wire it up to your data (in seconds) and you&#39;ve got 90% of what you need to allow a user to CRUD all the data.&nbsp; You&#39;ll probably just need to add the fetch() calls to post to your Web API.&nbsp;</li>
+	</ul>
+
+	<ol>
+		<li>Wire up your data to the React Front-End UI</li>
+		<li>Allow user to Load data into the component (<strong>Read</strong>)</li>
+		<li>Provide a way for you to set column(s) of your data which may be edited by user.</li>
+		<li>Provide a way for you to set column(s) of your data which data may be sorted numerically versus alphabetically.</li>
+		<li>Provide a way to set which column(s) can be searched.</li>
+		<li>Allow user to <strong>Update</strong> any data in your data set</li>
+		<li>Allow user to easily see* (style changes) which data has been changed.</li>
+		<li>Keep track of changes and allow the user to revert any changes (independent of others)</li>
+		<li>Allow user to sort the data in your data set</li>
+		<li>Allow user to Post data to your WebAPI, once the data has been.</li>
+	</ol>
+	</li>
+</ol>
