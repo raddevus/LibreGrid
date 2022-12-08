@@ -115,11 +115,22 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     this.inputHeaders = (document.querySelector('#headers') as HTMLInputElement)
       .value;
     
+    if (this.inputHeaders !== ""){
+      this.inputHeaders = this.inputHeaders.split("'").join("\"");
+    }
+    
     let inObjects = (document.querySelector('#data') as HTMLInputElement).value;
+    // insures that even if user uses single-quotes it will work
+    if (inObjects !== ""){
+      inObjects = inObjects.split("'").join("\"");
+    }
     console.log(inObjects);
 
     let inFields = (document.querySelector('#fields') as HTMLInputElement)
       .value;
+    if (inFields !== ""){
+      inFields = inFields.split("'").join("\"");
+    }
 
     this.dataIncludesId = (document.querySelector("#dataIncludesId") as HTMLInputElement).checked;
 
@@ -190,8 +201,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         );
 
         this.setState({
-          fields: JSON.parse(inFields),
-          headers: JSON.parse(this.inputHeaders),
+          fields: inFields !== "" ? inFields : "[]",
+          headers: this.inputHeaders !== "" ? this.inputHeaders : "[]",
         });
       }
     }
@@ -199,7 +210,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     //[{ "id": 1, "first": "Albert", "last": "flintstone" },{ "id": 2, "first": "wilma", "last": "flintstone" },{ "id": 3, "first": "pebbles", "last": "flintstone" },{ "id": 4, "first": "barney", "last": "rubble" },{ "id": 5, "first": "betty", "last": "rubble" },{ "id": 6, "first": "bamm-bamm", "last": "rubble" }]
 
     this.setState({
-      headers: this.inputHeaders,
+      headers: this.inputHeaders !== "" ? this.inputHeaders : "[]",
       editableIndexes: editIdx !== "" ? editIdx : "[0]",
       searchableIndexes: inSearchableIndexes !== "" ? inSearchableIndexes: "[0]",
       numSortIndexes : numSortIndexes !== "" ? numSortIndexes: "[0]",
@@ -236,7 +247,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
     fetchedData.forEach((x: any) => console.log(`second ${x}`));
     
     this.setState({
-      headers: this.inputHeaders,
+      headers: this.inputHeaders !== "" ? this.inputHeaders : "[]",
       extra: fetchedData,
       fields: localFields,
       editableIndexes: editIdx !== "" ? JSON.parse(editIdx) : "[0]",
