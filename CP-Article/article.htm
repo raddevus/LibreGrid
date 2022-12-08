@@ -22,7 +22,7 @@
 
 <p>Believe it or not, using just that simple data, I can show you how easy it is to load the LibreGrid with your custom data.&nbsp; It may not seem amazing yet, but when we load the results from a custom WebAPI I believe you&#39;ll be amazed.&nbsp; I hope so.</p>
 
-<h2>Let Me Show You How Easily You Can Use Component</h2>
+<h2>Let Me Show You How Easy It Is To Use LibreGrid</h2>
 
 <p>Now, for the fast crowd, let me show you how easily you can use my <code>LibreGrid</code> component.</p>
 
@@ -40,36 +40,59 @@
 <h4>Parent &amp; Child React Component</h4>
 
 <p>The image that follows shows the UI with two main headers (one black one &amp; one green one).&nbsp; Those headers each define the area of a separate React component</p>
+
 <ol>
-    <li>DataLoader - The parent React component which I built for this article so you can see the LibreGrid in action.&nbsp; The DataLoader&#39;s content ends with the [Load Data] button.</li>
-    <ul>
-        <li>DataLoader is made up of a number of HTML Input controls (all text boxes except the one checkbox and the one [Load Data] button).</li>
-    </ul>
-    <li>LibreGrid</li>
-    <ul>
-        <li>I've added the LibreGrid  as a child component to the example so we can pass in data from the parent (DataLoader). 
-            <br/>This is where your Domain Model data will be displayed for sorting, searching, editing & generating altered JSON.</li>
-    </ul>
+	<li><strong>DataLoader</strong> - The parent React component which I built for this article so you can see the LibreGrid in action.&nbsp; The DataLoader&#39;s content ends with the [Load Data] button.
+
+	<ul>
+		<li>DataLoader is made up of a number of HTML Input controls (all text boxes except the one checkbox and the one [Load Data] button).</li>
+	</ul>
+	</li>
+	<li><strong>LibreGrid</strong> - Everything within the Green border is the LibreGrid (the target component we are discussing).
+	<ul>
+		<li>I&#39;ve added the LibreGrid as a child component to the example so we can pass in data from the parent (DataLoader).<br />
+		This is where your Domain Model data will be displayed for sorting, searching, editing &amp; generating altered JSON.</li>
+	</ul>
+	</li>
 </ol>
 
 <p><img height="540" src="LibreGrid_002.png" width="975" /></p>
 
 <h3>DataLoader - Component Which Uses LibreGrid</h3>
 
-<p>I&#39;ve created an additional React Component that uses the target LibreGrid in order to show you how easy it is to load your custom data (domain objects) into the LibreGrid.</p>
+<p>Again, I&#39;ve created the DataLoader entirely so I can show you how easy it is to load data into the LibreGrid &amp; use it in your own projects and your own domain objects.</p>
 
 <p>First, of all, you can see that when the app runs it initially loads some sa mple data (<a href="https://en.wikipedia.org/wiki/The_Flintstones">based on Flintstones cartoon characters</a>[<a href="https://en.wikipedia.org/wiki/The_Flintstones" target="_blank" title="New Window">^</a>]).&nbsp; We can just ignore that for now.</p>
 
 <h4>Focus On Three HTML Text Input Boxes</h4>
 
 <p>To begin, we will just use three of the HTML text input fields to load our data.</p>
+
 <ol>
-    <li><strong>Data</strong> - text input where we&#39;ll paste our JSON which represents our array of domain objects</li>
-    <li><strong>Fields</strong> - text input where we&#39;ll type an array of strings which represent the field names which are found in the domain objects</li>
-    <li><strong>Column Headers</strong> - text input where we&#39;ll type an array of strings which will represent the header text which will appear above each column in our LibreGrid</li>
+	<li><strong>Data</strong> - text input where we&#39;ll paste our JSON which represents our array of domain objects</li>
+	<li><strong>Fields</strong> - text input where we&#39;ll type an array of strings which represent the field names which are found in the domain objects</li>
+	<li><strong>Column Headers</strong> - text input where we&#39;ll type an array of strings which will represent the header text which will appear above each column in our LibreGrid.</li>
 </ol>
 
+<p><img height="549" src="LibreGrid_003.png" width="893" /></p>
+
+<h2>What&#39;s The Big Deal?</h2>
+
+<p>At first when you see this you may think it&#39;s no big deal.&nbsp; I understand.&nbsp; At first it doesn&#39;t look like much, but you get a lot of features and I&#39;ll show you those features in just a moment.&nbsp; First, just allow me to point out a few things you may find odd.</p>
+
+<h3>A Few Important Things to Notice</h3>
+
+<ol>
+	<li><strong>ID Column</strong> - If the data doesn&#39;t have an ID column (just a numeric incrementable column) then I add one.&nbsp; If the data does have the value we can handle that too.</li>
+	<li><strong>Sort</strong> - The data is initially sorted on the ID column in ascending fashion. However, all you have to do to sort the data is click on the column header.</li>
+	<li><strong>Allow Data Reset</strong> -- You&#39;ll see more about this in a moment but it is just a way to allow the child LibreGrid component to only reload data if the user wants it to so we don&#39;t wipe out changes they&#39;ve made to the data.</li>
+	<li><strong>Headers</strong> - Headers are just an array of strings.&nbsp; If you add no headers you won&#39;t get any text over the columns and you won&#39;t have a way to click to sort the data.&nbsp; You can also use the exact same array of strings you used for the Field Names but you don&#39;t have to. Fields have to match the domain object&#39;s property names, but headers are just text which is displayed.</li>
+</ol>
+
+<p>With all of that in mind, let&#39;s go one step further now and load data from a WebAPI to prove this thing can work with any array of data objects.</p>
+
+<p>Let&#39;s Load Some Data From a WebAPI -- Star Wars API</p>
+
+<p>&nbsp;</p>
 
 <p>Domain</p>
-
-
