@@ -201,7 +201,7 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
         );
 
         this.setState({
-          fields: inFields !== "" ? inFields : "[]",
+          fields: inFields !== "" ? JSON.parse(inFields) : "[]",
           headers: this.inputHeaders !== "" ? this.inputHeaders : "[]",
         });
       }
