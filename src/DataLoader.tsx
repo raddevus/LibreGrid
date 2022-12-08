@@ -250,8 +250,8 @@ export class DataLoader extends React.Component<LoaderProps, {}> {
       headers: this.inputHeaders !== "" ? this.inputHeaders : "[]",
       extra: fetchedData,
       fields: localFields,
-      editableIndexes: editIdx !== "" ? JSON.parse(editIdx) : "[0]",
-      searchableIndexes: inSearchableIndexes !== "" ? JSON.parse(inSearchableIndexes): "[0]",
+      editableIndexes: editIdx !== "" ? editIdx : "[0]",
+      searchableIndexes: inSearchableIndexes !== "" ? inSearchableIndexes: "[0]",
       numSortIndexes : inNumSortIdx !== "" ? inNumSortIdx: "[0]",
       useLocalData: false,
     });

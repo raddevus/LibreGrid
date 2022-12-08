@@ -83,15 +83,149 @@
 <h3>A Few Important Things to Notice</h3>
 
 <ol>
-	<li><strong>ID Column</strong> - If the data doesn&#39;t have an ID column (just a numeric incrementable column) then I add one.&nbsp; If the data does have the value we can handle that too.</li>
+	<li><strong>ID Column</strong> - If the data doesn&#39;t have an ID column (just an integer column which is auto-incremented ) then I add one.&nbsp; If the data does have the value we can handle that too.</li>
 	<li><strong>Sort</strong> - The data is initially sorted on the ID column in ascending fashion. However, all you have to do to sort the data is click on the column header.</li>
 	<li><strong>Allow Data Reset</strong> -- You&#39;ll see more about this in a moment but it is just a way to allow the child LibreGrid component to only reload data if the user wants it to so we don&#39;t wipe out changes they&#39;ve made to the data.</li>
 	<li><strong>Headers</strong> - Headers are just an array of strings.&nbsp; If you add no headers you won&#39;t get any text over the columns and you won&#39;t have a way to click to sort the data.&nbsp; You can also use the exact same array of strings you used for the Field Names but you don&#39;t have to. Fields have to match the domain object&#39;s property names, but headers are just text which is displayed.</li>
 </ol>
 
-<p>With all of that in mind, let&#39;s go one step further now and load data from a WebAPI to prove this thing can work with any array of data objects.</p>
+<h3>Way More Functionality For Free</h3>
 
-<p>Let&#39;s Load Some Data From a WebAPI -- Star Wars API</p>
+<p>But the real power of the LibreGrid (the main component that we&#39;re actually discussing in this article) shows up when we try some of its functionality.</p>
+
+<h4>List of All Functionality (see associated snapshots)</h4>
+
+<ol>
+	<li><strong>Sort the data</strong> - click either of the headers and the data is sorted</li>
+	<li><strong>Edit the data</strong> - You can edit any of the data except the ID field. To edit, double-click on any cell and it will turn into a HTML text input box allowing you to type a new value.</li>
+	<li><strong>Revert changes</strong> - Select checkbox next to row you want to change back and click the [Revert Changes] button.</li>
+	<li><strong>Add new row(s)</strong> - Click the add new row button and edit the data in each column</li>
+	<li><strong>Search / Filter the Data</strong> - Click [Show Search] button and type in the search field, only matching data is displayed in grid</li>
+	<li><strong>Generate JSON</strong> (includes changes you made) - Click the [Get JSON] button</li>
+</ol>
+
+<p><strong>1</strong>. <strong>Sort the data</strong> - (Clicked on header twice, sorted descending)</p>
+
+<p><img height="214" src="LibreGrid_004.png" width="533" /></p>
+
+<p><strong>2</strong>. <strong>Edit the data</strong> - If you click on a column that hasn&#39;t had its EditableIndex set then you will not be able to edit the data in that column.&nbsp; This makes the LibreGrid ultimately custom.&nbsp; In order to edit the data you have to first add it&#39;s index value to the HTML Text input (shown in the image).&nbsp; In our case we set it to 1.&nbsp; The ID columns are never editable bec that doesn&#39;t really make sense (but you can change that in the source code of the LibreGrid if you like).</p>
+
+<p><img height="566" src="LibreGrid_005.png" width="540" /></p>
+
+<p>Once the user hits the &lt;ENTER&gt; button (when she is done editing the value) then the data will show that it has been changed.</p>
+
+<p><img height="215" src="LibreGrid_006.png" width="583" /></p>
+
+<p><strong>3</strong>. <strong>Revert Changes</strong> - Select the checkbox next to the row you want to change and click the [Revert Changes] button.</p>
+
+<p>Not much to see here, the data is back to original values.</p>
+
+<p><img height="219" src="LibreGrid_007.png" width="539" /></p>
+
+<p><strong>4</strong>. <strong>Add New Rows of data</strong> -- Click the button, the new rows are added (with new unique ID values).&nbsp; The data is editable (as long as you add the editableIndexes).</p>
+
+<p><img height="279" src="LibreGrid_008.png" width="536" /></p>
+
+<p><strong>5</strong>. <strong>Search / Filter the Data</strong> - This is super helpful if you have a lot of data (we&#39;ll see a lot of data soon).&nbsp; Click the [Show Search] button and the text input field(s) will appear above each column.&nbsp; Type in the value you want to search for (filter data down to).</p>
+
+<p>I added some data so the example will be a bit more clear.</p>
+
+<p><img height="409" src="LibreGrid_009.png" width="545" /></p>
+
+<p>Type an id value in the input box... (in our example I type a 5)</p>
+
+<p><img height="223" src="LibreGrid_010.png" width="537" /></p>
+
+<h4>Search On Other Columns</h4>
+
+<p>Notice that you can only search on the ID column.&nbsp; We can change that in the DataLoader so that the [fake] column can also be searched on.&nbsp; We just need to change the <code>searchableIndexes</code> value.&nbsp; This is yet another customization on our LibreGrid.</p>
+
+<p><img height="458" src="LibreGrid_011.png" width="859" /></p>
+
+<p>Displaying all data in the column which has the letter &#39;o&#39;.</p>
+
+<p><img height="267" src="LibreGrid_012.png" width="597" /></p>
+
+<p><strong>6. Generate JSON For Your Altered Data</strong></p>
+
+<p>If you were to leave the filter on (filtered for letter &#39;o&#39;) and you clicked the [Get JSON] button right now you would see the following (a popup window which displays the JSON for the displayed collection of domain objects as JSON):</p>
+
+<p><img height="739" src="LibreGrid_013.png" width="673" /></p>
+
+<p>If you right-click to close the window and then click the [Hide Search] button, the original collection of (unfiltered) objects will appear.</p>
+
+<p><img height="390" src="LibreGrid_014.png" width="529" /></p>
+
+<p>Now, if you simply click the [Get JSON] button again, you&#39;ll see the JSON that includes all your domain objects (unfiltered).</p>
+
+<p><img height="765" src="LibreGrid_015.png" width="691" /></p>
+
+<h3>It&#39;s Kind of a Big Deal Tool</h3>
+
+<p>Of course, if you simply load a collection of domain objects and edit a column then that data is reflected in the generated JSON which means that with this Open Source tool that I&#39;ve created you have a way to load, edit and generate JSON.&nbsp;</p>
+
+<p>With all of that in mind, let&#39;s go one step further now and load data from a WebAPI to prove this thing can work with any array of data objects.&nbsp; We will also prove that it is possible to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">fetch()</a>[<a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank" title="New Window">^</a>] data from a 3rd Party WebAPI.</p>
+
+<h2>Let&#39;s Load Some Data From a WebAPI -- Star Wars API</h2>
+
+<p>To prove that this works with basically any array of domain objects.&nbsp; I&#39;m now going to show you how to load data from a 3rd Party WebAPI called the SWAPI (Star Wars API).&nbsp;</p>
+
+<h3>Take A Look At SWAPI For Star Wars People</h3>
+
+<p>First, take a look at what the data that is returned from the SWAPI for the list of Star Wars People (characters).</p>
+
+<p>Click the following link to see the data: <a href="https://swapi.dev/api/people">https://swapi.dev/api/people</a>[<a href="https://swapi.dev/api/people" target="_blank" title="New Window">^</a>]</p>
+
+<p>You will see a page that looks like this (my markup explains the details):</p>
+
+<p><img height="959" src="LibreGrid_016.png" width="740" /></p>
+
+<p>You can see that there is an <strong>Array of Domain Objects</strong>* which contain properties.&nbsp; This is perfect for our purposes with the LibreGrid.&nbsp;</p>
+
+<p>*This domain contains some objects that the SWAPI devs have named People.</p>
+
+<h2>Loading SWAPI Data In LibreGrid</h2>
+
+<p>To load this data in the LibreGrid, we need the following:</p>
+
+<ol>
+	<li>URL to WebAPI (https://swapi.dev/api/people)</li>
+	<li>Name of the data set that is returned (the array of objects) In this case it is named <code>results</code>. This is very important because we have to tell the DataLoader where the target array of objects is in the data we are retrieving.&nbsp; Sometimes the webapi directly returns an array of objects but not always.&nbsp; In the case of SWAPI there is a bunch of other data returned also -- which is like meta-data (data describing the data).</li>
+	<li>List of Fields that we want to display in the LibreGrid (these are the domain object properties and they must be named exactly the same or the code will not be able to find them).</li>
+	<li>Header Text that we want to display.</li>
+</ol>
+
+<p>That&#39;s it.&nbsp; Let&#39;s do it!!</p>
+
+<p>First take a look at the new HTML Input fields we are going to use when loading from a WebAPI.</p>
+
+<p><img height="395" src="LibreGrid_017.png" width="450" /></p>
+
+<p>Here&#39;s how we set it up and the results which will occur when you press the [Load Data] button.</p>
+
+<p>I&#39;m including the data so you can just copy / paste it into the live example at my web site or if you built the code locally.</p>
+
+<pre lang="jscript">
+https://swapi.dev/api/people // URL
+[&quot;id&quot;,&quot;name&quot;, &quot;height&quot;, &quot;mass&quot;, &quot;hair_color&quot;, &quot;eye_color&quot;, &quot;birth_year&quot;] // fields
+results // data name
+[&quot;id&quot;,&quot;name&quot;, &quot;height&quot;, &quot;mass&quot;, &quot;hair_color&quot;, &quot;eye_color&quot;, &quot;birth_year&quot;] // headers</pre>
+
+<p><img height="744" src="LibreGrid_018.png" width="873" /></p>
+
+<h3>All The Functionality Works</h3>
+
+<p>Go ahead and add your editableIndexes, searchableIndexes, etc and you&#39;ll see that all the functionality is there.&nbsp; It took me a lot of work to get to this generic thing but it works quite well.&nbsp;</p>
+
+<h4>Bugs?</h4>
+
+<p>Yes, you&#39;ll surely find some bugs but it works quite well and most of the bugs you find will probably be enhancement type of things.</p>
+
+<h3>One More Interesting Piece of Functionality: numericSortIndexes</h3>
+
+<p>You may have noticed that there is one more piece of functionality we haven&#39;t looked at.&nbsp; It is this idea of numeric sort index.&nbsp; This just means that some columns you will want to search based upon numeric values.&nbsp;</p>
+
+<p>Now that we have some good data this will be easier to explain.&nbsp; The two fields height &amp; mass are numeric type of data but if you add a sortIndex for them they will currently be sorted alphabetically.&nbsp; Here I&#39;ll show what I mean.</p>
 
 <p>&nbsp;</p>
 
