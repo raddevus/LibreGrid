@@ -411,16 +411,19 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
   }
 
   addRow() {
-    console.log('addRow...');
-
     //console.log(this.state.gridData.length);
     let maxKey: number = -1;
     this.gridData.forEach((x, key, map) => {
       maxKey = key;
     });
     console.log(`maxKey : ${maxKey}`);
-    let newRow: any = [++maxKey, 'test2'];
-
+    // get number of columns in the row  -1 is so idx col isn't counted
+    let rowWidth = [...this.gridData.values()][0].length - 1;
+    console.log(`rowWdith: ${rowWidth}`);
+        
+    //let newRow: any = [++maxKey, 'test2'];
+    let newRow: any = this.getNewRow(++maxKey, rowWidth); //[++maxKey, arr];
+    
     // sets the newly added row as a changed row so it'll show up highlighted green
     this.allChangedRows.set(maxKey, newRow!);
 
@@ -429,6 +432,51 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
       targetData: [...this.gridData.values()],
       isLocal: true
     });
+  }
+
+  getNewRow(maxKey: number, rowWidth: number){
+    switch (rowWidth){
+      case 1:{
+        return [maxKey, 'col 1'];
+        break;  
+      }
+      case 2:{
+        return [maxKey, 'column 1', 'col 2'];
+        break;  
+      }
+      case 3:{
+        return [maxKey, 'column 1', 'col 2', 'col 3'];
+        break;  
+      }
+      case 4:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4'];
+        break;  
+      }
+      case 5:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5'];
+        break;  
+      }
+      case 6:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6'];
+        break;  
+      }
+      case 7:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7'];
+        break;  
+      }
+      case 8:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8'];
+        break;  
+      }
+      case 9:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8', 'col 9'];
+        break;  
+      }
+      case 10:{
+        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8', 'col 9', 'col 10'];
+        break;  
+      }
+    }
   }
 
   revertData() {
