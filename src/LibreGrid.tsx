@@ -435,48 +435,13 @@ export class LibreGrid extends React.Component<PropsParams, {}> {
   }
 
   getNewRow(maxKey: number, rowWidth: number){
-    switch (rowWidth){
-      case 1:{
-        return [maxKey, 'col 1'];
-        break;  
-      }
-      case 2:{
-        return [maxKey, 'column 1', 'col 2'];
-        break;  
-      }
-      case 3:{
-        return [maxKey, 'column 1', 'col 2', 'col 3'];
-        break;  
-      }
-      case 4:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4'];
-        break;  
-      }
-      case 5:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5'];
-        break;  
-      }
-      case 6:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6'];
-        break;  
-      }
-      case 7:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7'];
-        break;  
-      }
-      case 8:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8'];
-        break;  
-      }
-      case 9:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8', 'col 9'];
-        break;  
-      }
-      case 10:{
-        return [maxKey, 'column 1', 'col 2', 'col 3', 'col 4', 'col 5', 'col 6', 'col 7', 'col 8', 'col 9', 'col 10'];
-        break;  
-      }
-    }
+    return [
+      maxKey,
+      ...Array.from(
+        { length: rowWidth },
+        (_, i) => 'col ' + (i + 1)
+      )
+    ];
   }
 
   revertData() {
